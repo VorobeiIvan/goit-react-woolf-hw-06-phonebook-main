@@ -1,4 +1,13 @@
-const NumberInput = ({ value, onChange }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { changeNumber } from '../store/slice';
+
+const NumberInput = () => {
+  const dispatch = useDispatch();
+  const value = useSelector(state => state.contacts.number);
+  const handleChangeNumber = event => {
+    dispatch(changeNumber(event.target.value));
+  };
+
   return (
     <div className="wrapper">
       <label className="label">Number</label>
@@ -7,7 +16,7 @@ const NumberInput = ({ value, onChange }) => {
         type="tel"
         name="number"
         value={value}
-        onChange={onChange}
+        onChange={handleChangeNumber}
         pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required

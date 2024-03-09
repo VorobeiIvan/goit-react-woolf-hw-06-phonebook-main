@@ -1,49 +1,41 @@
-import React, { useState } from 'react';
+import { addContact, reset } from 'store/slice';
+import { nanoid } from '@reduxjs/toolkit';
+
 import NameInput from './NameInput';
 import NumberInput from './NumberInput';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.contacts);
 
-  const formSubmitHandler = (event, data) => {
+  const formSubmitHandler = event => {
     event.preventDefault();
+    const name = event.target.elements.name.value;
+    const number = event.target.elements.number.value;
 
-    onSubmit({ name, number });
-    reset();
-
-    const { name } = data;
-    const isExist = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    if (isExist) {
-      alert(`${name} is already in contacts.`);
+    if (
+      contacts.some(
+        contact => contact.name === name || contact.number === number
+      )
+    ) {
+      alert('Contact with this name or number already exists!');
       return;
     }
 
-    const newContact = { ...data, id: nanoid() };
-    dispatch(addContact(newContact));
-  };
-
-  const handleChange = event => {
-    const { name, value } = event.currentTarget;
-    if (name === 'name') {
-      setName(value);
-    } else if (name === 'number') {
-      setNumber(value);
-    }
-  };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
+    const contact = {
+      id: nanoid(),
+      name: name,
+      number: number,
+    };
+    dispatch(addContact(contact));
+    dispatch(reset());
   };
 
   return (
     <form className="form" onSubmit={formSubmitHandler}>
-      <NameInput value={name} onChange={handleChange} />
-      <NumberInput value={number} onChange={handleChange} />
+      <NameInput />
+      <NumberInput />
       <button className="btn-add" type="submit">
         Add contact
       </button>
