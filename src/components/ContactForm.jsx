@@ -1,18 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+import React, { useState } from 'react';
 import NameInput from './NameInput';
 import NumberInput from './NumberInput';
-import { addContact, reset } from '../store/slice';
+import { addContact } from '../store/slice';
 import { selectContactsState } from '../store/slice';
 
 const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const { contacts } = useSelector(selectContactsState);
 
   const formSubmitHandler = event => {
     event.preventDefault();
-    const name = event.target.elements.name.value;
-    const number = event.target.elements.number.value;
 
     if (
       contacts.some(
@@ -29,13 +30,14 @@ const ContactForm = () => {
       number: number,
     };
     dispatch(addContact(contact));
-    dispatch(reset());
+    setName('');
+    setNumber('');
   };
 
   return (
     <form className="form" onSubmit={formSubmitHandler}>
-      <NameInput />
-      <NumberInput />
+      <NameInput value={name} setName={setName} />
+      <NumberInput value={number} setNumber={setNumber} />
       <button className="btn-add" type="submit">
         Add contact
       </button>
