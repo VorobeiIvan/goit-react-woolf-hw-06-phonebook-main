@@ -3,9 +3,9 @@ import { deleteContact, selectFilter, selectContactsState } from 'store/slice';
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const { contacts, filter } = useSelector(
-    selectFilter?.contacts || selectContactsState
-  );
+  const contacts = useSelector(selectContactsState);
+  const filter = useSelector(selectFilter);
+
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );

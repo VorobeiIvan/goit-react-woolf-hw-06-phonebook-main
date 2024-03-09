@@ -5,13 +5,11 @@ import NameInput from './NameInput';
 import NumberInput from './NumberInput';
 import { addContact } from '../store/slice';
 import { selectContactsState } from '../store/slice';
-
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const { contacts } = useSelector(selectContactsState);
-
+  const contacts = useSelector(selectContactsState);
   const formSubmitHandler = event => {
     event.preventDefault();
 
@@ -36,8 +34,8 @@ const ContactForm = () => {
 
   return (
     <form className="form" onSubmit={formSubmitHandler}>
-      <NameInput value={name} setName={setName} />
-      <NumberInput value={number} setNumber={setNumber} />
+      <NameInput value={name || ''} setName={setName} />
+      <NumberInput value={number || ''} setNumber={setNumber} />
       <button className="btn-add" type="submit">
         Add contact
       </button>

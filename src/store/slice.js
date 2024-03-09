@@ -20,7 +20,7 @@ const contactsSlice = createSlice({
     },
   },
 });
-export const selectContactsState = state => state.contacts;
+export const selectContactsState = state => state.contacts.contacts;
 export const selectFilter = state => state.contacts.filter;
 export const contactsSliceReducer = contactsSlice.reducer;
 export const { addContact, deleteContact, changeFilter } =
