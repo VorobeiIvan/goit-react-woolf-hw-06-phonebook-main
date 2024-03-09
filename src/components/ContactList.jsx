@@ -1,18 +1,25 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact, selectContactsState } from 'store/slice';
 
 const ContactList = () => {
-  const contacts = useSelector(state => {
-    const filter = state.contacts.filter.toLowerCase();
-    return state.contacts.contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter)
-    );
-  });
+  const dispatch = useDispatch();
+  const { contacts, filter } = useSelector(selectContactsState);
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <ul className="contact-list">
-      {contacts.map(contact => (
+      {filteredContacts.map(contact => (
         <li key={contact.id} className="contact-item">
           {contact.name}: {contact.number}
+          <button
+            className="btn-del"
+            type="button"
+            onClick={() => dispatch(deleteContact(contact.id))}
+          >
+            Delete
+          </button>
         </li>
       ))}
     </ul>

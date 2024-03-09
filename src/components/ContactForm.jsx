@@ -1,13 +1,13 @@
-import { addContact, reset } from 'store/slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-
 import NameInput from './NameInput';
 import NumberInput from './NumberInput';
-import { useDispatch, useSelector } from 'react-redux';
+import { addContact, reset } from '../store/slice';
+import { selectContactsState } from '../store/slice';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
+  const { contacts } = useSelector(selectContactsState);
 
   const formSubmitHandler = event => {
     event.preventDefault();

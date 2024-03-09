@@ -30,7 +30,7 @@ const contactsSlice = createSlice({
     },
   },
 });
-
+export const selectContactsState = state => state.contacts;
 export const contactsSliceReducer = contactsSlice.reducer;
 export const {
   addContact,
